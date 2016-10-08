@@ -1,0 +1,141 @@
+#!/bin/bash
+#MAGIC SCRIPT FOR INSTALLING ALL THE THINGS AND DRINK ALL THE BEER
+
+#CREATING FOLDERS
+mkdir "Programs"
+mkdir "work"
+cd Programs
+
+#INSTALLING GIT
+sudo apt-get install -y git
+
+#INSTALLING java8
+sudo add-apt-repository ppa:webupd8team/java && sudo apt-get update && sudo apt-get install -y oracle-java8-installer
+
+#installing maven
+sudo apt-get update && sudo apt-get install -y maven
+
+#installing node
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+#launch npm global stuff
+# xdg-open https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md
+mkdir "${HOME}/.npm-packages"
+#create file
+echo prefix=\${HOME}/.npm-packages > ${HOME}/.npmrc
+
+#installing appengine
+# xdg-open https://cloud.google.com/appengine/docs/java/download
+file="appengine-java-sdk-1.9.38.zip"
+if [ -f "$file" ]
+then
+	echo "$file found."
+else
+	echo "$file not found."
+  wget -O appengine-java-sdk-1.9.38.zip https://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.38.zip
+fi
+unzip appengine-java-sdk-1.9.38.zip
+
+#installing chrome
+file="google-chrome-stable_current_amd64.deb"
+if [ -f "$file" ]
+then
+	echo "$file found."
+else
+	echo "$file not found."
+  wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+fi
+sudo dpkg -i google-chrome-stable_current_amd64.deb && sudo apt-get install -f
+
+#installing smartgit
+file="smartgit-8_0_2.deb"
+if [ -f "$file" ]
+then
+	echo "$file found."
+else
+	echo "$file not found."
+  wget -O smartgit-8_0_2.deb http://www.syntevo.com/smartgit/download?file=smartgit/smartgit-8_0_2.deb
+fi
+sudo dpkg -i smartgit-8_0_2.deb && sudo apt-get install -f
+
+#installing atom
+file="atom-amd64.deb"
+if [ -f "$file" ]
+then
+	echo "$file found."
+else
+	echo "$file not found."
+  wget -O atom-amd64.deb https://atom.io/download/deb
+fi
+sudo dpkg -i atom-amd64.deb && sudo apt-get install -f
+
+#installing apache
+sudo apt-get update && sudo apt-get install apache2
+
+#instlaling intellij
+file="ideaIC-2016.2.tar.gz"
+if [ -f "$file" ]
+then
+	echo "$file found."
+  tar -xvzf ideaIC-2016.2.tar.gz
+else
+	echo "$file not found."
+  wget https://download.jetbrains.com/idea/ideaIC-2016.2.4.tar.gz
+  tar -xvzf ideaIC-2016.2.4.tar.gz
+fi
+
+#installing terminator
+sudo add-apt-repository ppa:gnome-terminator && sudo apt-get update && sudo apt-get install terminator
+
+
+#echo things to add to to bash
+# echo "copy the following to the bash"
+# echo "\#npm"
+# echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"
+#
+# PATH=\"\$NPM_PACKAGES/bin:\$PATH\"
+#
+# # Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+# unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+# export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\""
+#
+# echo "\#appengine"
+# echo "export PATH=\$PATH:\$HOME/Programs/appengine-java-sdk-1.9.38/bin/"
+
+echo "changing bashrc"
+MODIFIEDBASH=$HOME/.bashrc
+cp $MODIFIEDBASH $HOME/.bashrc.old
+
+echo "#npm
+" >> $MODIFIEDBASH
+echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"
+
+PATH=\"\$NPM_PACKAGES/bin:\$PATH\"
+
+# Unset manpath so we can inherit from /etc/manpath via the \`manpath\` command
+unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> $MODIFIEDBASH
+
+echo "
+
+#appengine" >> $MODIFIEDBASH
+echo "export PATH=\$PATH:\$HOME/Programs/appengine-java-sdk-1.9.38/bin/" >> $MODIFIEDBASH
+
+
+#check installs
+echo "SUCESS!!!!"
+echo "========================================================================="
+echo "GIT"
+git --version
+echo "JAVA"
+java -version
+echo "MAVEN"
+mvn -v
+echo "NODE && NPM"
+node -v
+npm -v
+echo "========================================================================="
+
+echo "FIX CHROME AND ATOM --disable-gpu"
+sudo gedit /usr/share/applications/atom.desktop
+sudo gedit /usr/share/applications/google-chrome.desktop
