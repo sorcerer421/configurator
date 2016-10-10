@@ -59,6 +59,7 @@ fi
 sudo dpkg -i smartgit-8_0_2.deb && sudo apt-get install -f
 
 #installing atom
+#todo change to ppa
 file="atom-amd64.deb"
 if [ -f "$file" ]
 then
@@ -86,6 +87,12 @@ fi
 
 #installing terminator
 sudo add-apt-repository ppa:gnome-terminator && sudo apt-get update && sudo apt-get install terminator
+
+#installing nuclide for atom.io
+apm install nuclide
+
+#installing react-native
+#to-do add react-native stuff
 
 
 #echo things to add to to bash
