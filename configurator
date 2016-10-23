@@ -6,14 +6,14 @@ mkdir "Programs"
 mkdir "work"
 cd Programs
 
-#INSTALLING GIT
-sudo apt-get install -y git
+#add java repo
+sudo add-apt-repository ppa:webupd8team/java
 
-#INSTALLING java8
-sudo add-apt-repository ppa:webupd8team/java && sudo apt-get update && sudo apt-get install -y oracle-java8-installer
+#add terminator
+sudo add-apt-repository ppa:gnome-terminator
 
-#installing maven
-sudo apt-get update && sudo apt-get install -y maven
+#batch install  GIT, JAVA, MAVEN, APACHE2 terminator
+sudo apt-get update && sudo apt-get install -y git oracle-java8 maven apache2 terminator
 
 #installing node
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs
@@ -59,7 +59,6 @@ fi
 sudo dpkg -i smartgit-8_0_2.deb && sudo apt-get install -f
 
 #installing atom
-#todo change to ppa
 file="atom-amd64.deb"
 if [ -f "$file" ]
 then
@@ -69,9 +68,6 @@ else
   wget -O atom-amd64.deb https://atom.io/download/deb
 fi
 sudo dpkg -i atom-amd64.deb && sudo apt-get install -f
-
-#installing apache
-sudo apt-get update && sudo apt-get install apache2
 
 #instlaling intellij
 file="ideaIC-2016.2.tar.gz"
@@ -85,29 +81,11 @@ else
   tar -xvzf ideaIC-2016.2.4.tar.gz
 fi
 
-#installing terminator
-sudo add-apt-repository ppa:gnome-terminator && sudo apt-get update && sudo apt-get install terminator
-
 #installing nuclide for atom.io
 apm install nuclide
 
 #installing react-native
 npm install -g react-native-cli
-
-
-#echo things to add to to bash
-# echo "copy the following to the bash"
-# echo "\#npm"
-# echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"
-#
-# PATH=\"\$NPM_PACKAGES/bin:\$PATH\"
-#
-# # Unset manpath so we can inherit from /etc/manpath via the `manpath` command
-# unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-# export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\""
-#
-# echo "\#appengine"
-# echo "export PATH=\$PATH:\$HOME/Programs/appengine-java-sdk-1.9.38/bin/"
 
 echo "changing bashrc"
 MODIFIEDBASH=$HOME/.bashrc
