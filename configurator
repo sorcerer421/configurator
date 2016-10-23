@@ -92,7 +92,7 @@ sudo add-apt-repository ppa:gnome-terminator && sudo apt-get update && sudo apt-
 apm install nuclide
 
 #installing react-native
-#to-do add react-native stuff
+npm install -g react-native-cli
 
 
 #echo things to add to to bash
